@@ -45,21 +45,44 @@ function Page() {
 // }
 
 class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { date: new Date() };
+
+    this.timer = null;
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      this.setState({
+        date: new Date(),
+      });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
   render() {
     return (
       <div className='Clock'>
         <h1>Hello, world!</h1>
-        <h2>It's {this.props.date.toLocaleTimeString()}</h2>
+        <h2>It's {this.state.date.toLocaleTimeString()}</h2>
       </div>
     );
   }
 }
 
+function clickMe() {
+  console.log('你点了我...');
+}
+
 function App() {
   return (
     <div className='App'>
-      <Clock date={new Date()} />
+      <Clock />
       <Page />
+      <button onClick={clickMe}>点我</button>
       <header className='App-header'>
         <img src={logo} className='App-logo' alt='logo' />
         <p>
